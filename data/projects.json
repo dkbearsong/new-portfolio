@@ -1,0 +1,120 @@
+[
+  {
+    "name": "Job Search Agent",
+    "slug": "job-search-agent",
+    "description": "AI-powered autonomous system for analyzing 2000+ job postings overnight, evaluating relevance with local LLMs, and tracking applications through automated pipelines.",
+    "githubUrl": "https://github.com/dkbearsong/job-search-agent",
+    "demoUrl": null,
+    "technologies": [
+      "Python",
+      "PostgreSQL",
+      "Ollama",
+      "LangChain",
+      "Docker"
+    ],
+    "topics": [
+      "AI",
+      "LLM",
+      "Automation",
+      "Multi-Agent"
+    ],
+    "status": "active",
+    "featured": true,
+    "stars": 12,
+    "lastUpdated": "2026-08-30T14:32:00Z"
+  },
+  {
+    "name": "Jira MCP Server",
+    "slug": "jira-mcp-server",
+    "description": "Model Context Protocol (MCP) server providing RAG capabilities and semantic search over cached Jira data pipelines for AI assistants.",
+    "githubUrl": "https://github.com/dkbearsong/Jira-MCP",
+    "demoUrl": null,
+    "technologies": [
+      "Python",
+      "Jira API",
+      "RAG",
+      "MCP",
+      "ChromaDB",
+      "Claude"
+    ],
+    "topics": [
+      "MCP",
+      "RAG",
+      "Jira",
+      "Claude"
+    ],
+    "status": "active",
+    "featured": true,
+    "stars": 24,
+    "lastUpdated": "2026-08-20T11:15:00Z"
+  },
+  {
+    "name": "Jira Comment Log Summarizer",
+    "slug": "jira-comment-log-summarizer",
+    "description": "Chrome extension integrating Google Gemini to generate instant executive summaries of complex Jira ticket comment histories and escalation logs.",
+    "githubUrl": "https://github.com/dkbearsong/Jira-Comment-Log-Summarizer",
+    "demoUrl": null,
+    "technologies": [
+      "JavaScript",
+      "Chrome API",
+      "Google Gemini",
+      "Jira"
+    ],
+    "topics": [
+      "Browser Extension",
+      "Gemini",
+      "Productivity"
+    ],
+    "status": "maintained",
+    "featured": true,
+    "stars": 18,
+    "lastUpdated": "2026-07-15T09:40:00Z"
+  },
+  {
+    "name": "Web Scraping Microservice",
+    "slug": "web-scraping-microservice",
+    "description": "Robust scraping microservice featuring 7 REST API endpoints built with Flask, Selenium, and BeautifulSoup, engineered to bypass Cloudflare and crawl dynamic SPAs.",
+    "githubUrl": "https://github.com/dkbearsong/web-scraper-microservice",
+    "demoUrl": null,
+    "technologies": [
+      "Python",
+      "Flask",
+      "Selenium",
+      "BeautifulSoup",
+      "Ollama"
+    ],
+    "topics": [
+      "Web Scraping",
+      "REST API",
+      "Microservices"
+    ],
+    "status": "active",
+    "featured": false,
+    "stars": 8,
+    "lastUpdated": "2026-06-28T18:22:00Z"
+  },
+  {
+    "name": "n8n Automation Workflows",
+    "slug": "n8n-automation-workflows",
+    "description": "Production-grade n8n automation suite for newsletter summarization, Confluence documentation generation, Trello board automation, and local LLM orchestration.",
+    "githubUrl": "https://github.com/dkbearsong/n8n-automations",
+    "demoUrl": "https://n8n.io/creators/dkbearsong/",
+    "technologies": [
+      "JavaScript",
+      "n8n",
+      "Ollama",
+      "Google Gemini",
+      "REST API",
+      "Confluence"
+    ],
+    "topics": [
+      "Workflow Automation",
+      "n8n",
+      "LLM Agents"
+    ],
+    "status": "active",
+    "featured": true,
+    "stars": 15,
+    "lastUpdated": "2026-05-14T16:05:00Z"
+  }
+]
