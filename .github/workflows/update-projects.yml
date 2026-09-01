@@ -1,0 +1,67 @@
+name: Update GitHub Projects
+
+on:
+  # Run automatically once per day
+  schedule:
+    - cron: "0 12 * * *"
+
+  # Allow manually triggering the workflow from GitHub
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-projects:
+    runs-on: ubuntu-latest
+
+    steps:
+      # --------------------------------------------------
+      # 1. Check out the portfolio repository
+      # --------------------------------------------------
+      - name: Checkout portfolio repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # --------------------------------------------------
+      # 2. Set up Python
+      # --------------------------------------------------
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # --------------------------------------------------
+      # 3. Install dependencies
+      # --------------------------------------------------
+      - name: Install dependencies
+        run: |
+          pip install requests
+
+      # --------------------------------------------------
+      # 4. Run project synchronization script
+      # --------------------------------------------------
+      - name: Update project data
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_USERNAME: dkbearsong
+        run: |
+          python .github/scripts/update_projects.py
+
+      # --------------------------------------------------
+      # 5. Commit changes if projects.json changed
+      # --------------------------------------------------
+      - name: Commit project updates
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add data/projects.json
+
+          if git diff --cached --quiet; then
+            echo "No project changes detected."
+          else
+            git commit -m "chore: update GitHub projects"
+            git push
+          fi
