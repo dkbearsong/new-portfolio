@@ -55,6 +55,7 @@ function LazyVideo({ videoUrl }) {
     videoEl.playsInline = true;
     videoEl.loop = true;
     videoEl.setAttribute('playsinline', '');
+    videoEl.setAttribute('webkit-playsinline', 'true');
     videoEl.setAttribute('muted', '');
     videoEl.load();
 
@@ -66,7 +67,7 @@ function LazyVideo({ videoUrl }) {
     return () => {
       try {
         videoEl.pause();
-        videoEl.src = '';
+        videoEl.removeAttribute('src');
         videoEl.load();
       } catch (e) {}
     };
@@ -80,6 +81,7 @@ function LazyVideo({ videoUrl }) {
       muted
       loop
       playsInline
+      webkit-playsinline="true"
       preload="auto"
     />
   );
@@ -87,24 +89,20 @@ function LazyVideo({ videoUrl }) {
 
 export default function HobbiesPreviews({ items = [] }) {
   const [activeIndex, setActiveIndex] = useState(-1);
-  const touchStartRef = useRef({ x: null, y: null });
 
-  const handleMouseEnter = (index) => {
-    setActiveIndex(index);
+  const hasHoverSupport = () => {
+    if (typeof window === 'undefined') return false;
+    return window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   };
 
-  const handleMouseLeave = () => {
-    if (typeof window !== 'undefined' && !window.matchMedia('(hover: none)').matches) {
-      setActiveIndex(-1);
+  const handleMouseEnter = (index) => {
+    if (hasHoverSupport()) {
+      setActiveIndex(index);
     }
   };
 
-  const handleFocus = (index) => {
-    setActiveIndex(index);
-  };
-
-  const handleBlur = (index) => {
-    if (activeIndex === index) {
+  const handleMouseLeave = () => {
+    if (hasHoverSupport()) {
       setActiveIndex(-1);
     }
   };
@@ -128,42 +126,12 @@ export default function HobbiesPreviews({ items = [] }) {
     }
   };
 
-  // Mobile Touch Swipe Handling
-  const handleTouchStart = (e) => {
-    if (!e.touches.length) return;
-    touchStartRef.current = {
-      x: e.touches[0].clientX,
-      y: e.touches[0].clientY
-    };
-  };
-
-  const handleTouchEnd = (e) => {
-    const { x, y } = touchStartRef.current;
-    if (x === null || y === null || !e.changedTouches.length) return;
-
-    const dx = e.changedTouches[0].clientX - x;
-    const dy = e.changedTouches[0].clientY - y;
-
-    // Horizontal swipe threshold
-    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.2) {
-      const current = activeIndex < 0 ? 0 : activeIndex;
-      const nextIndex = dx < 0 
-        ? Math.min(items.length - 1, current + 1) 
-        : Math.max(0, current - 1);
-      setActiveIndex(nextIndex);
-    }
-
-    touchStartRef.current = { x: null, y: null };
-  };
-
   return (
     <div 
       className="previews-accordion" 
       role="region" 
       aria-label="Interactive Interests and Creative Pursuits Previews"
       onMouseLeave={handleMouseLeave}
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
     >
       {items.map((hobby, index) => {
         const Icon = iconMap[hobby.icon] || Sparkles;
@@ -182,8 +150,6 @@ export default function HobbiesPreviews({ items = [] }) {
             aria-label={hobby.name}
             className={`preview-bar-panel ${isActive ? 'is-active' : ''}`}
             onMouseEnter={() => handleMouseEnter(index)}
-            onFocus={() => handleFocus(index)}
-            onBlur={() => handleBlur(index)}
             onClick={() => handleClick(index)}
             onKeyDown={(e) => handleKeyDown(e, index)}
           >
@@ -205,7 +171,7 @@ export default function HobbiesPreviews({ items = [] }) {
               />
             )}
 
-            {/* Lazy Video Layer: Mounted exclusively on active hover/focus */}
+            {/* Lazy Video Layer: Mounted exclusively on active hover/tap */}
             {hasVideo && isActive && (
               <LazyVideo videoUrl={videoUrl} />
             )}

@@ -58,7 +58,7 @@ export default function AboutPage() {
           Technical Stack & Toolkit
         </h2>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(380px, 1fr))', gap: '24px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))', gap: '24px' }}>
           {skillCategories.map((cat, idx) => {
             const CatIcon = categoryIcons[idx % categoryIcons.length];
             return (
@@ -90,7 +90,7 @@ export default function AboutPage() {
       </div>
 
       {/* Methodology & Approach */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))', gap: '24px' }}>
         <div className="card-glass" style={{ padding: '32px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
             <Target size={22} color="var(--color-accent)" />

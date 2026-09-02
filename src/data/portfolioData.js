@@ -138,7 +138,7 @@ export const hobbies = [
     id: 'culinary',
     name: 'Culinary Arts & Cooking', 
     icon: 'ChefHat', 
-    desc: 'Crafting diverse cuisines, testing heat curves, and experimenting with global flavor profiles.',
+    desc: 'I enjoy cooking for myself and my family. I find home cooking is one of the best ways to ensure you and your fmaily can live and eat healthy, and I enjoy trying new culinary recipes and techniques from around the world',
     image: '/portfolio videos/cooking.jpg',
     video: '/portfolio videos/cooking.mp4',
     tag: 'Kitchen Lab'
@@ -147,7 +147,7 @@ export const hobbies = [
     id: 'art',
     name: 'Traditional & Digital Art', 
     icon: 'Palette', 
-    desc: 'Drawing, conceptual sketching, character design, and exploring digital visual workflows.',
+    desc: 'I enjoy Drawing, conceptual sketching, character design, and exploring digital visual workflows. I find it thereputic, and is something I can do with shows on in the background, either in my sketchbook or on my ipad.',
     image: '/portfolio videos/painting.jpg',
     video: '/portfolio videos/painting.mp4',
     tag: 'Visual Design'
@@ -156,7 +156,7 @@ export const hobbies = [
     id: 'brewing',
     name: 'Home Craft Brewing', 
     icon: 'Beer', 
-    desc: 'Formulating all-grain recipes, dialing in yeast fermentation profiles, and kegging custom craft beers.',
+    desc: 'Alcohol is the lifeblood of civilization, and brewing beer is a great combination of cullinary crafting and sciences like biology and chemistry. I enjoy both the practice and the final results.',
     image: '/portfolio videos/beer.jpg',
     video: '/portfolio videos/beer.mp4',
     tag: 'Craft Ferment'
@@ -165,7 +165,7 @@ export const hobbies = [
     id: 'martial-arts',
     name: 'Martial Arts & Trail Hiking', 
     icon: 'Flame', 
-    desc: 'Discipline, physical conditioning, striking technique, and rugged backcountry trail endurance.',
+    desc: 'Although I wish I did alot more than I do at this moment, martial arts and hiking are two of my favorite forms of exercise. I\'ve studied a number of different martial arts over the years, including several forms of Karate, Muay Thai, Tae Kwon Do, Judo, and several Kung Fu styles with my favorite one being Wing Chun. And I love hiking mountains to get to the scenic views',
     image: '/portfolio videos/hiking.jpg',
     video: '/portfolio videos/hiking.mp4',
     tag: 'Endurance'
@@ -174,7 +174,7 @@ export const hobbies = [
     id: 'coffee',
     name: 'Artisanal Coffee Roasting', 
     icon: 'Coffee', 
-    desc: 'Roasting single-origin green coffee beans and profiling first crack times for nuanced extraction.',
+    desc: 'Roasting single-origin green coffee beans and profiling first crack times for nuanced extraction. While making coffee itself is great, I find that roasting it allows for even fresher coffee than we can get from store bought.',
     image: '/portfolio videos/coffee roasting.jpg',
     video: '/portfolio videos/coffee roasting.mp4',
     tag: 'Roast Profile'
@@ -183,7 +183,7 @@ export const hobbies = [
     id: 'fermentation',
     name: 'Fermentation & Pickling', 
     icon: 'Sparkles', 
-    desc: 'Applied microbiology in the kitchen: lacto-fermented hot sauces, seasonal kimchi, and artisan sauerkraut.',
+    desc: 'Applied microbiology in the kitchen: lacto-fermented hot sauces, seasonal kimchi, and artisan sauerkraut. I never can get enough of the stuff, and am always thinking about how I can incorporate a bit of it in my recipes.',
     image: '/portfolio videos/pickling.jpg',
     video: '/portfolio videos/pickling.mp4',
     tag: 'Microbiology'
@@ -192,7 +192,7 @@ export const hobbies = [
     id: 'sharpening',
     name: 'Precision Knife Sharpening', 
     icon: 'Scissors', 
-    desc: 'Freehand Japanese whetstone polishing down to 8000-grit for mirror bevels and surgical push-cuts.',
+    desc: 'Freehand Japanese whetstone polishing down to 8000-grit for mirror bevels and surgical push-cuts. There is something very satisfying about taking a dull knife and making it razor sharp. Especially when you rely on these knives daily when working in the kitchen.',
     image: '/portfolio videos/knife sharpening.jpg',
     video: '/portfolio videos/knife sharpening.mp4',
     tag: 'Whetstone'
@@ -201,7 +201,7 @@ export const hobbies = [
     id: 'gaming',
     name: 'Gaming & Anime', 
     icon: 'Gamepad2', 
-    desc: 'Deep interactive storytelling, competitive mechanics, RPG systems, and anime world-building.',
+    desc: 'Deep interactive storytelling, competitive mechanics, RPG systems, and anime world-building. I grew up playing video games and watching anime, and still to this day enjoy both. I consider them a great way to relax and unwind after a long day.',
     image: '/portfolio videos/video games.jpg',
     video: '/portfolio videos/video games.mp4',
     tag: 'Interactive'

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { navigationTabs, personalInfo } from '../data/portfolioData';
 import { Github, Menu, X } from 'lucide-react';
 
@@ -6,17 +7,11 @@ export default function Navbar({ currentTab, onSelectTab, isMobile }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleTabClick = (e, tab) => {
+    e.preventDefault();
     if (isMobile) {
-      e.preventDefault();
       setMobileMenuOpen(false);
-      const element = document.querySelector(tab.anchor);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
-    } else {
-      e.preventDefault();
-      onSelectTab(tab);
     }
+    onSelectTab(tab);
   };
 
   return (
@@ -173,49 +168,74 @@ export default function Navbar({ currentTab, onSelectTab, isMobile }) {
         </div>
       </div>
 
-      {/* Mobile Drawer Menu */}
-      {isMobile && mobileMenuOpen && (
-        <div
-          style={{
-            position: 'absolute',
-            top: 'var(--nav-height)',
-            left: 0,
-            right: 0,
-            backgroundColor: 'color-mix(in srgb, var(--color-bg) 95%, transparent)',
-            borderBottom: '1px solid var(--border-muted)',
-            padding: '20px 24px',
-            backdropFilter: 'blur(20px)',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '12px',
-            boxShadow: '0 20px 40px rgba(0, 0, 0, 0.8)'
-          }}
-        >
-          {navigationTabs.map((tab) => (
-            <a
-              key={tab.id}
-              href={tab.anchor}
-              onClick={(e) => handleTabClick(e, tab)}
+      {/* Mobile Drawer Menu with 0.5s Expand/Collapse Animation */}
+      <AnimatePresence>
+        {isMobile && mobileMenuOpen && (
+          <motion.div
+            key="mobile-nav-drawer"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            style={{
+              overflow: 'hidden',
+              position: 'absolute',
+              top: 'var(--nav-height)',
+              left: 0,
+              right: 0,
+              backgroundColor: 'color-mix(in srgb, var(--color-bg) 96%, transparent)',
+              borderBottom: '1px solid var(--border-muted)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              boxShadow: '0 20px 40px rgba(0, 0, 0, 0.8)'
+            }}
+          >
+            <div
               style={{
-                fontFamily: 'var(--font-mono)',
-                fontSize: '15px',
-                color: 'var(--text-heading)',
-                textDecoration: 'none',
-                padding: '12px 16px',
-                borderRadius: '8px',
-                backgroundColor: 'var(--bg-panel)',
-                border: '1px solid var(--border-muted)',
+                padding: '20px 24px',
                 display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between'
+                flexDirection: 'column',
+                gap: '10px'
               }}
             >
-              <span>{tab.label}</span>
-              <span style={{ color: 'var(--color-accent)' }}>→</span>
-            </a>
-          ))}
-        </div>
-      )}
+              {navigationTabs.map((tab) => {
+                const isActive = currentTab.id === tab.id;
+                return (
+                  <a
+                    key={tab.id}
+                    href={tab.path}
+                    onClick={(e) => handleTabClick(e, tab)}
+                    style={{
+                      fontFamily: 'var(--font-mono)',
+                      fontSize: '15px',
+                      fontWeight: isActive ? 700 : 500,
+                      color: isActive ? 'var(--color-accent)' : 'var(--text-heading)',
+                      textDecoration: 'none',
+                      padding: '12px 16px',
+                      borderRadius: '8px',
+                      backgroundColor: isActive
+                        ? 'color-mix(in srgb, var(--color-accent) 15%, var(--bg-panel))'
+                        : 'var(--bg-panel)',
+                      border: isActive
+                        ? '1px solid var(--color-accent)'
+                        : '1px solid var(--border-muted)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      transition: 'background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease'
+                    }}
+                  >
+                    <span>{tab.label}</span>
+                    <span style={{ color: 'var(--color-accent)', fontWeight: 700 }}>
+                      {isActive ? '●' : '→'}
+                    </span>
+                  </a>
+                );
+              })}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

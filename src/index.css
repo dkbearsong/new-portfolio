@@ -280,10 +280,18 @@ h1, h2, h3, h4, h5, h6 {
   align-items: start;
 }
 
+.home-sidebar {
+  position: sticky;
+  top: calc(var(--nav-height) + 24px);
+}
+
 @media (max-width: 900px) {
   .grid-2col {
     grid-template-columns: 1fr;
     gap: 32px;
+  }
+  .home-sidebar {
+    position: static;
   }
 }
 
@@ -314,18 +322,46 @@ h1, h2, h3, h4, h5, h6 {
   user-select: none;
 }
 
-.previews-accordion:hover .preview-bar-panel {
-  flex-grow: 0.55;
-  height: 350px;
-}
+/* Desktop Hover & Active States */
+@media (hover: hover) and (min-width: 769px) {
+  .previews-accordion:hover .preview-bar-panel {
+    flex-grow: 0.55;
+    height: 350px;
+  }
 
-.preview-bar-panel:hover,
-.preview-bar-panel:focus-visible,
-.preview-bar-panel.is-active {
-  flex-grow: 3.8 !important;
-  height: 440px !important;
-  border-color: var(--color-accent);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45), 0 0 24px color-mix(in srgb, var(--color-accent) 30%, transparent);
+  .preview-bar-panel:hover,
+  .preview-bar-panel:focus-visible,
+  .preview-bar-panel.is-active {
+    flex-grow: 3.8 !important;
+    height: 440px !important;
+    border-color: var(--color-accent);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45), 0 0 24px color-mix(in srgb, var(--color-accent) 30%, transparent);
+  }
+
+  .preview-bar-panel:hover .preview-label .preview-desc,
+  .preview-bar-panel:focus-visible .preview-label .preview-desc,
+  .preview-bar-panel.is-active .preview-label .preview-desc {
+    max-height: 84px;
+    opacity: 1;
+  }
+
+  .preview-bar-panel:hover .preview-tag,
+  .preview-bar-panel.is-active .preview-tag {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .preview-bar-panel:hover video.preview-media,
+  .preview-bar-panel.is-active video.preview-media,
+  .preview-bar-panel.has-video-playing video.preview-media {
+    opacity: 1;
+  }
+
+  .preview-bar-panel:hover .preview-media,
+  .preview-bar-panel.is-active .preview-media {
+    opacity: 1;
+    transform: scale(1.04);
+  }
 }
 
 /* Tech Placeholder Layer */
@@ -380,18 +416,6 @@ h1, h2, h3, h4, h5, h6 {
   z-index: 2;
   opacity: 0;
   pointer-events: none;
-}
-
-.preview-bar-panel:hover video.preview-media,
-.preview-bar-panel.is-active video.preview-media,
-.preview-bar-panel.has-video-playing video.preview-media {
-  opacity: 1;
-}
-
-.preview-bar-panel:hover .preview-media,
-.preview-bar-panel.is-active .preview-media {
-  opacity: 1;
-  transform: scale(1.04);
 }
 
 /* Gradient Overlay for Text Legibility */
@@ -449,13 +473,6 @@ h1, h2, h3, h4, h5, h6 {
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.95);
 }
 
-.preview-bar-panel:hover .preview-label .preview-desc,
-.preview-bar-panel:focus-visible .preview-label .preview-desc,
-.preview-bar-panel.is-active .preview-label .preview-desc {
-  max-height: 84px;
-  opacity: 1;
-}
-
 /* Category Badge Pill in corner */
 .preview-bar-panel .preview-tag {
   position: absolute;
@@ -477,31 +494,35 @@ h1, h2, h3, h4, h5, h6 {
   pointer-events: none;
 }
 
-.preview-bar-panel:hover .preview-tag,
-.preview-bar-panel.is-active .preview-tag {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Responsive Mobile Layout */
+/* Responsive Mobile & Touch Layout */
 @media (max-width: 768px) {
   .previews-accordion {
     flex-direction: column;
     height: auto;
-    touch-action: pan-y;
     gap: 12px;
   }
   .preview-bar-panel {
     height: 190px;
     flex: none;
     width: 100%;
+    transition: height .4s cubic-bezier(.2, .7, .2, 1), border-color .25s ease, box-shadow .3s ease;
   }
   .preview-bar-panel.is-active {
     height: 290px !important;
+    border-color: var(--color-accent);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45), 0 0 20px color-mix(in srgb, var(--color-accent) 30%, transparent);
   }
-  .previews-accordion:hover .preview-bar-panel,
-  .preview-bar-panel:hover {
-    flex: none !important;
+  .preview-bar-panel video.preview-media,
+  .preview-bar-panel .preview-video {
+    opacity: 0;
+  }
+  .preview-bar-panel.is-active video.preview-media,
+  .preview-bar-panel.is-active .preview-video {
+    opacity: 1;
+  }
+  .preview-bar-panel.is-active .preview-media {
+    opacity: 1;
+    transform: scale(1.04);
   }
   .preview-bar-panel .preview-label .preview-desc {
     max-height: 84px;

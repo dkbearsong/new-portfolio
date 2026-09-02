@@ -12,7 +12,7 @@ export default function HomePage({ onNavigate }) {
     <div className="home-page">
       <div className="grid-2col">
         {/* Left Column - Fixed Bio Sidebar */}
-        <div style={{ position: 'sticky', top: 'calc(var(--nav-height) + 24px)' }}>
+        <div className="home-sidebar">
           <div className="card-glass" style={{ padding: '32px 28px', borderLeft: '3px solid var(--color-accent)' }}>
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '4px 12px', borderRadius: 'var(--radius-full)', background: 'color-mix(in srgb, var(--color-accent) 15%, transparent)', border: '1px solid color-mix(in srgb, var(--color-accent) 40%, transparent)', marginBottom: '16px' }}>
               <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#50fa7b', boxShadow: '0 0 8px #50fa7b' }}></span>

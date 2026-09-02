@@ -11,7 +11,6 @@ import AboutPage from './pages/AboutPage';
 import PortfolioPage from './pages/PortfolioPage';
 import BlogPage from './pages/BlogPage';
 import ContactPage from './pages/ContactPage';
-import MobileSinglePage from './pages/MobileSinglePage';
 
 export default function App() {
   // Find initial tab based on path
@@ -99,7 +98,7 @@ export default function App() {
       {/* Main Content Area */}
       <main className="main-content">
         {isMobile ? (
-          <MobileSinglePage />
+          renderActivePage()
         ) : (
           <PageTransition pageKey={currentTab.id} direction={direction}>
             {renderActivePage()}
