@@ -47,7 +47,10 @@ export default function FlowCanvas() {
       { speed: 0.005, amplitude: 55, wavelength: 0.002, color: panel, alpha: 0.2, offset: 1.5 },
     ];
 
+    let isRunning = true;
+
     const render = () => {
+      if (!isRunning) return;
       ctx.clearRect(0, 0, width, height);
       step += 1;
 
@@ -79,11 +82,32 @@ export default function FlowCanvas() {
       animationFrameId = requestAnimationFrame(render);
     };
 
-    render();
+    // Pause rendering when tab is hidden to save CPU and battery/RAM
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        isRunning = false;
+        if (animationFrameId) cancelAnimationFrame(animationFrameId);
+      } else {
+        if (!isRunning) {
+          isRunning = true;
+          animationFrameId = requestAnimationFrame(render);
+        }
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    // Initial start if visible
+    if (!document.hidden) {
+      render();
+    }
 
     return () => {
+      isRunning = false;
+      clearTimeout(resizeTimeout);
       window.removeEventListener('resize', handleResize);
-      cancelAnimationFrame(animationFrameId);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
     };
   }, []);
 

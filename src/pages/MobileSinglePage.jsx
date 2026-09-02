@@ -16,6 +16,7 @@ import {
   ExternalLink, 
   Send, 
   CheckCircle2, 
+  AlertCircle,
   Copy, 
   Check, 
   Flame, 
@@ -38,21 +39,30 @@ export default function MobileSinglePage() {
     setStatus({ submitting: true, success: false, error: null });
 
     try {
-      const response = await fetch('/api/contact', {
+      const formEndpoint = personalInfo.formsubmitToken || personalInfo.email;
+      const response = await fetch(`https://formsubmit.co/ajax/${formEndpoint}`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          _subject: formData.subject || `New Contact Message from ${formData.name}`,
+          message: formData.message
+        })
       });
       const data = await response.json();
-      if (response.ok && data.success) {
+      if (response.ok && (data.success === 'true' || data.success === true)) {
         setStatus({ submitting: false, success: true, error: null });
         setFormData({ name: '', email: '', subject: '', message: '' });
       } else {
-        setStatus({ submitting: false, success: false, error: data.error || 'Submission error' });
+        setStatus({ submitting: false, success: false, error: data.message || 'Submission error' });
       }
     } catch (err) {
-      setStatus({ submitting: false, success: true, error: null });
-      setFormData({ name: '', email: '', subject: '', message: '' });
+      console.error('Contact submission error:', err);
+      setStatus({ submitting: false, success: false, error: 'Network error submitting message. Please try again.' });
     }
   };
 
@@ -290,10 +300,23 @@ export default function MobileSinglePage() {
           {status.success ? (
             <div style={{ padding: '16px', textAlign: 'center', backgroundColor: 'rgba(80, 250, 123, 0.1)', borderRadius: '8px' }}>
               <CheckCircle2 size={28} color="#50fa7b" style={{ margin: '0 auto 8px' }} />
-              <p style={{ fontSize: '13.5px', color: '#50fa7b' }}>Message Dispatched!</p>
+              <p style={{ fontSize: '13.5px', color: '#50fa7b', marginBottom: '8px' }}>Message Dispatched!</p>
+              <button
+                onClick={() => setStatus({ submitting: false, success: false, error: null })}
+                className="btn btn-outline"
+                style={{ fontSize: '11px', padding: '4px 10px' }}
+              >
+                Send Another Message
+              </button>
             </div>
           ) : (
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              {status.error && (
+                <div style={{ backgroundColor: 'color-mix(in srgb, var(--color-accent) 20%, transparent)', border: '1px solid var(--color-accent)', padding: '10px 14px', borderRadius: '6px', display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-heading)', fontSize: '12.5px' }}>
+                  <AlertCircle size={15} />
+                  <span>{status.error}</span>
+                </div>
+              )}
               <input
                 type="text"
                 required

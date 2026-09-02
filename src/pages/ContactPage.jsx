@@ -36,32 +36,40 @@ export default function ContactPage() {
     setStatus({ submitting: true, success: false, error: null });
 
     try {
-      const response = await fetch('/api/contact', {
+      const formEndpoint = personalInfo.formsubmitToken || personalInfo.email;
+      const response = await fetch(`https://formsubmit.co/ajax/${formEndpoint}`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          _subject: formData.subject || `New Contact Message from ${formData.name}`,
+          message: formData.message
+        })
       });
 
       const data = await response.json();
 
-      if (response.ok && data.success) {
+      if (response.ok && (data.success === 'true' || data.success === true)) {
         setStatus({ submitting: false, success: true, error: null });
         setFormData({ name: '', email: '', subject: '', message: '' });
       } else {
         setStatus({
           submitting: false,
           success: false,
-          error: data.error || 'Failed to submit message. Please try again.'
+          error: data.message || 'Failed to submit message. Please try again.'
         });
       }
     } catch (err) {
       console.error('Contact submission error:', err);
       setStatus({
         submitting: false,
-        success: true,
-        error: null
+        success: false,
+        error: 'Network error submitting message. Please try again.'
       });
-      setFormData({ name: '', email: '', subject: '', message: '' });
     }
   };
 
@@ -93,28 +101,7 @@ export default function ContactPage() {
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
             
-            {/* Email item */}
-            <div style={{ display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
-              <div style={{ width: '40px', height: '40px', borderRadius: '8px', backgroundColor: 'color-mix(in srgb, var(--color-accent) 20%, transparent)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                <Mail size={18} color="var(--color-accent)" />
-              </div>
-              <div>
-                <p className="mono" style={{ fontSize: '11px', textTransform: 'uppercase', color: 'var(--text-muted)' }}>Direct Email</p>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '2px' }}>
-                  <a href={`mailto:${personalInfo.email}`} style={{ color: 'var(--text-heading)', textDecoration: 'none', fontWeight: 600, fontSize: '14.5px' }}>
-                    {personalInfo.email}
-                  </a>
-                  <button
-                    onClick={handleCopyEmail}
-                    className="btn btn-ghost"
-                    style={{ padding: '4px 8px', fontSize: '11px' }}
-                    title="Copy Email"
-                  >
-                    {copiedEmail ? <Check size={13} color="#50fa7b" /> : <Copy size={13} />}
-                  </button>
-                </div>
-              </div>
-            </div>
+
 
             {/* Location item */}
             <div style={{ display: 'flex', gap: '14px', alignItems: 'flex-start' }}>

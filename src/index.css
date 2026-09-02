@@ -369,13 +369,22 @@ h1, h2, h3, h4, h5, h6 {
   background-color: transparent;
 }
 
-.preview-bar-panel video.preview-media {
-  opacity: 0;
+.preview-bar-panel img.preview-media,
+.preview-bar-panel .preview-image {
+  z-index: 1;
+  opacity: 0.85;
 }
 
-.preview-bar-panel.has-video video.preview-media,
+.preview-bar-panel video.preview-media,
+.preview-bar-panel .preview-video {
+  z-index: 2;
+  opacity: 0;
+  pointer-events: none;
+}
+
 .preview-bar-panel:hover video.preview-media,
-.preview-bar-panel.is-active video.preview-media {
+.preview-bar-panel.is-active video.preview-media,
+.preview-bar-panel.has-video-playing video.preview-media {
   opacity: 1;
 }
 

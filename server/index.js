@@ -172,6 +172,9 @@ app.post('/api/contact', (req, res) => {
     createdAt: new Date().toISOString()
   };
 
+  if (contactSubmissions.length >= 100) {
+    contactSubmissions.shift();
+  }
   contactSubmissions.push(submission);
   console.log(`[Contact Form Received] From: ${name} <${email}> | Subject: ${subject}`);
 
@@ -182,9 +185,12 @@ app.post('/api/contact', (req, res) => {
   });
 });
 
-// Serve static assets in production
+// Serve static assets in production with aggressive cache headers for media/js/css
 const distPath = path.join(__dirname, '../dist');
-app.use(express.static(distPath));
+app.use(express.static(distPath, {
+  maxAge: '1d',
+  etag: true
+}));
 
 // Fallback for SPA routing
 app.get('*', (req, res) => {

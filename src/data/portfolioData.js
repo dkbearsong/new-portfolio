@@ -3,6 +3,7 @@ export const personalInfo = {
   tagline: 'Engineering Efficiency Through Intelligent Customer Support',
   role: 'Senior Technical Support Engineer & AI Automation Specialist',
   email: 'dkbearsong@gmail.com',
+  formsubmitToken: 'bedd3d68b8b31a40c0628e3a8d47e602',
   location: 'Morrisville, NC',
   openToRelocate: true,
   socialLinks: {
@@ -138,8 +139,8 @@ export const hobbies = [
     name: 'Culinary Arts & Cooking', 
     icon: 'ChefHat', 
     desc: 'Crafting diverse cuisines, testing heat curves, and experimenting with global flavor profiles.',
-    image: 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=1200&q=80',
-    video: null,
+    image: '/portfolio videos/cooking.jpg',
+    video: '/portfolio videos/cooking.mp4',
     tag: 'Kitchen Lab'
   },
   { 
@@ -147,8 +148,8 @@ export const hobbies = [
     name: 'Traditional & Digital Art', 
     icon: 'Palette', 
     desc: 'Drawing, conceptual sketching, character design, and exploring digital visual workflows.',
-    image: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=1200&q=80',
-    video: null,
+    image: '/portfolio videos/painting.jpg',
+    video: '/portfolio videos/painting.mp4',
     tag: 'Visual Design'
   },
   { 
@@ -156,8 +157,8 @@ export const hobbies = [
     name: 'Home Craft Brewing', 
     icon: 'Beer', 
     desc: 'Formulating all-grain recipes, dialing in yeast fermentation profiles, and kegging custom craft beers.',
-    image: 'https://images.unsplash.com/photo-1571613316887-6f8d5cbf7ef7?auto=format&fit=crop&w=1200&q=80',
-    video: null,
+    image: '/portfolio videos/beer.jpg',
+    video: '/portfolio videos/beer.mp4',
     tag: 'Craft Ferment'
   },
   { 
@@ -165,8 +166,8 @@ export const hobbies = [
     name: 'Martial Arts & Trail Hiking', 
     icon: 'Flame', 
     desc: 'Discipline, physical conditioning, striking technique, and rugged backcountry trail endurance.',
-    image: 'https://images.unsplash.com/photo-1551632811-561732d1e306?auto=format&fit=crop&w=1200&q=80',
-    video: null,
+    image: '/portfolio videos/hiking.jpg',
+    video: '/portfolio videos/hiking.mp4',
     tag: 'Endurance'
   },
   { 
@@ -174,8 +175,8 @@ export const hobbies = [
     name: 'Artisanal Coffee Roasting', 
     icon: 'Coffee', 
     desc: 'Roasting single-origin green coffee beans and profiling first crack times for nuanced extraction.',
-    image: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=1200&q=80',
-    video: null,
+    image: '/portfolio videos/coffee roasting.jpg',
+    video: '/portfolio videos/coffee roasting.mp4',
     tag: 'Roast Profile'
   },
   { 
@@ -183,8 +184,8 @@ export const hobbies = [
     name: 'Fermentation & Pickling', 
     icon: 'Sparkles', 
     desc: 'Applied microbiology in the kitchen: lacto-fermented hot sauces, seasonal kimchi, and artisan sauerkraut.',
-    image: 'https://images.unsplash.com/photo-1589135233689-d56d47913309?auto=format&fit=crop&w=1200&q=80',
-    video: null,
+    image: '/portfolio videos/pickling.jpg',
+    video: '/portfolio videos/pickling.mp4',
     tag: 'Microbiology'
   },
   { 
@@ -192,8 +193,8 @@ export const hobbies = [
     name: 'Precision Knife Sharpening', 
     icon: 'Scissors', 
     desc: 'Freehand Japanese whetstone polishing down to 8000-grit for mirror bevels and surgical push-cuts.',
-    image: 'https://images.unsplash.com/photo-1593618998160-e34014e67546?auto=format&fit=crop&w=1200&q=80',
-    video: null,
+    image: '/portfolio videos/knife sharpening.jpg',
+    video: '/portfolio videos/knife sharpening.mp4',
     tag: 'Whetstone'
   },
   { 
@@ -201,8 +202,8 @@ export const hobbies = [
     name: 'Gaming & Anime', 
     icon: 'Gamepad2', 
     desc: 'Deep interactive storytelling, competitive mechanics, RPG systems, and anime world-building.',
-    image: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80',
-    video: null,
+    image: '/portfolio videos/video games.jpg',
+    video: '/portfolio videos/video games.mp4',
     tag: 'Interactive'
   }
 ];

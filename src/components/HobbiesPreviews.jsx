@@ -21,37 +21,79 @@ const iconMap = {
   Gamepad2
 };
 
+// Helper to normalize media URLs
+const formatMediaUrl = (url) => {
+  if (!url) return '';
+  if (url.startsWith('http://') || url.startsWith('https://')) return url;
+  let clean = url.replace(/^public\//, '/');
+  if (!clean.startsWith('/')) clean = '/' + clean;
+  return encodeURI(decodeURI(clean));
+};
+
+/**
+ * LazyVideo: Only mounts in DOM when card is active/hovered.
+ * Upon unmount or deactivation, explicitly pauses, clears source, and triggers load()
+ * so browser garbage collector immediately frees video decoders, GPU buffers, and cached frames.
+ */
+function LazyVideo({ videoUrl }) {
+  const videoRef = useRef(null);
+
+  const webmUrl = videoUrl.replace(/\.mp4$/i, '.webm');
+  const mp4Url = videoUrl.replace(/\.webm$/i, '.mp4');
+
+  useEffect(() => {
+    const videoEl = videoRef.current;
+    if (!videoEl) return;
+
+    // Detect WebM vs MP4 support for universal cross-browser compatibility
+    const canWebm = videoEl.canPlayType('video/webm');
+    const selectedUrl = (canWebm === 'probably' || canWebm === 'maybe') ? webmUrl : mp4Url;
+
+    videoEl.src = selectedUrl;
+    videoEl.muted = true;
+    videoEl.defaultMuted = true;
+    videoEl.playsInline = true;
+    videoEl.loop = true;
+    videoEl.setAttribute('playsinline', '');
+    videoEl.setAttribute('muted', '');
+    videoEl.load();
+
+    const playPromise = videoEl.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {});
+    }
+
+    return () => {
+      try {
+        videoEl.pause();
+        videoEl.src = '';
+        videoEl.load();
+      } catch (e) {}
+    };
+  }, [videoUrl, webmUrl, mp4Url]);
+
+  return (
+    <video
+      ref={videoRef}
+      className="preview-media preview-video"
+      autoPlay
+      muted
+      loop
+      playsInline
+      preload="auto"
+    />
+  );
+}
+
 export default function HobbiesPreviews({ items = [] }) {
   const [activeIndex, setActiveIndex] = useState(-1);
-  const [videoLoaded, setVideoLoaded] = useState({});
-  const videoRefs = useRef({});
   const touchStartRef = useRef({ x: null, y: null });
-
-  // Play/pause videos when activeIndex changes
-  useEffect(() => {
-    items.forEach((item, index) => {
-      const videoEl = videoRefs.current[index];
-      if (!videoEl) return;
-
-      if (index === activeIndex) {
-        const playPromise = videoEl.play();
-        if (playPromise && playPromise.catch) {
-          playPromise.catch(() => {
-            // Autoplay or interrupted play handled safely
-          });
-        }
-      } else {
-        videoEl.pause();
-      }
-    });
-  }, [activeIndex, items]);
 
   const handleMouseEnter = (index) => {
     setActiveIndex(index);
   };
 
   const handleMouseLeave = () => {
-    // Only reset on non-touch devices
     if (typeof window !== 'undefined' && !window.matchMedia('(hover: none)').matches) {
       setActiveIndex(-1);
     }
@@ -63,8 +105,7 @@ export default function HobbiesPreviews({ items = [] }) {
 
   const handleBlur = (index) => {
     if (activeIndex === index) {
-      const videoEl = videoRefs.current[index];
-      if (videoEl) videoEl.pause();
+      setActiveIndex(-1);
     }
   };
 
@@ -127,9 +168,10 @@ export default function HobbiesPreviews({ items = [] }) {
       {items.map((hobby, index) => {
         const Icon = iconMap[hobby.icon] || Sparkles;
         const isActive = activeIndex === index;
-        const hasMedia = Boolean(hobby.video || hobby.image || hobby.mediaSrc);
-        const isVideo = Boolean(hobby.video || (hobby.mediaType === 'video'));
-        const isHasVideoClass = isVideo && videoLoaded[index];
+        const imageUrl = formatMediaUrl(hobby.image || hobby.poster);
+        const videoUrl = formatMediaUrl(hobby.video || (hobby.mediaType === 'video' ? hobby.mediaSrc : ''));
+        const hasImage = Boolean(imageUrl);
+        const hasVideo = Boolean(videoUrl);
 
         return (
           <div
@@ -138,7 +180,7 @@ export default function HobbiesPreviews({ items = [] }) {
             role="button"
             aria-expanded={isActive}
             aria-label={hobby.name}
-            className={`preview-bar-panel ${isActive ? 'is-active' : ''} ${isHasVideoClass ? 'has-video' : ''}`}
+            className={`preview-bar-panel ${isActive ? 'is-active' : ''}`}
             onMouseEnter={() => handleMouseEnter(index)}
             onFocus={() => handleFocus(index)}
             onBlur={() => handleBlur(index)}
@@ -146,40 +188,30 @@ export default function HobbiesPreviews({ items = [] }) {
             onKeyDown={(e) => handleKeyDown(e, index)}
           >
             {/* Tech Fallback & Ambient Placeholder */}
-            <div className="preview-ph">
-              <Icon size={28} color="var(--color-accent)" />
-              <span className="preview-ph-title">[ {hobby.name} ]</span>
-            </div>
+            {(!hasImage && !hasVideo) && (
+              <div className="preview-ph">
+                <Icon size={28} color="var(--color-accent)" />
+                <span className="preview-ph-title">[ {hobby.name} ]</span>
+              </div>
+            )}
 
-            {/* Media Layer: Video */}
-            {isVideo ? (
-              <video
-                ref={(el) => (videoRefs.current[index] = el)}
-                className="preview-media"
-                muted
-                loop
-                playsInline
-                preload="metadata"
-                poster={hobby.poster || hobby.image}
-                onPlaying={() => setVideoLoaded((prev) => ({ ...prev, [index]: true }))}
-              >
-                <source src={hobby.video || hobby.mediaSrc} type="video/mp4" />
-                <source src={hobby.video || hobby.mediaSrc} type="video/webm" />
-              </video>
-            ) : null}
-
-            {/* Media Layer: Image / Screenshot */}
-            {!isVideo && (hobby.image || hobby.mediaSrc) ? (
+            {/* Optimized Predefined Poster Image (always rendered as lightweight background) */}
+            {hasImage && (
               <img
-                src={hobby.image || hobby.mediaSrc}
+                src={imageUrl}
                 alt={hobby.name}
-                className="preview-media"
+                className="preview-media preview-image"
                 loading="lazy"
               />
-            ) : null}
+            )}
+
+            {/* Lazy Video Layer: Mounted exclusively on active hover/focus */}
+            {hasVideo && isActive && (
+              <LazyVideo videoUrl={videoUrl} />
+            )}
 
             {/* Dark Legibility Overlay */}
-            {hasMedia && <div className="preview-overlay" />}
+            {(hasImage || hasVideo) && <div className="preview-overlay" />}
 
             {/* Category / Mode Tag in top corner */}
             {hobby.tag && (
