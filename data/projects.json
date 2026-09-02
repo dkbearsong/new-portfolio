@@ -10,10 +10,17 @@
       "Shell"
     ],
     "topics": [
-      "ai",
-      "llm",
+      "anthropic-claude",
+      "chatgpt",
+      "fastapi",
+      "gemini",
+      "lm-studio",
+      "ollama",
+      "openrouter",
       "portfolio",
-      "pytho"
+      "postgresql",
+      "python",
+      "selenium"
     ],
     "status": "active",
     "lastUpdated": "2026-09-01T18:03:05Z",
@@ -31,7 +38,7 @@
     "topics": [
       "mcp",
       "portfolio",
-      "psq",
+      "postgresql",
       "python"
     ],
     "status": "active",
@@ -48,9 +55,17 @@
       "Python"
     ],
     "topics": [
-      "beautifulsoup",
+      "aiohttp",
+      "beautifulsoup4",
+      "css-selector",
+      "docke",
+      "flask",
+      "ollama",
       "portfolio",
-      "python"
+      "python",
+      "rest-api",
+      "selenium",
+      "webdriver"
     ],
     "status": "active",
     "lastUpdated": "2026-07-18T18:41:08Z",
